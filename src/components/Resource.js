@@ -1,22 +1,45 @@
-import React from 'react';
+import React, { useCallback, useState, memo } from 'react';
 import { Accordion, AccordionSummary, AccordionDetails, Typography } from '@material-ui/core';
 import { ExpandMore } from '@material-ui/icons';
 
+import Progress from './Progress';
+
+import { fetchResource } from '../api'
+
+const getPrettyDescription = (resource) =>
+    Object.entries(resource)
+        .map((res) => <>{ res.join(': ').slice(0, 20) }<br/></>)
+
 function Resource(props) {
+    const { name, url } = props;
+    const [resource, setResource] = useState(null);
+    const [isLoading, setLoading] = useState(true);
+
+    const [expanded, setExpanded] = useState(false);
+    const onExpand = useCallback(() => {
+        setExpanded((state) => !state)
+        if (expanded === false && resource === null) {
+            setLoading(true);
+            fetchResource(url)
+                .then((resource) => setResource(resource))
+                .then(() => setLoading(false))
+        }
+    }, [expanded, url, resource])
+
     return (
-        <Accordion>
+        <Accordion expanded={expanded} onChange={onExpand}>
             <AccordionSummary expandIcon={<ExpandMore />}>
-                <Typography>General settings</Typography>
-                <Typography>I am an accordion</Typography>
+                <Typography>{ name }</Typography>
             </AccordionSummary>
             <AccordionDetails>
-                <Typography>
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse malesuada lacus ex,
-                    sit amet blandit leo lobortis eget.
-                </Typography>
+                { 
+                    isLoading
+                        ? <Progress/>
+                        : getPrettyDescription(resource)
+                }
             </AccordionDetails>
         </Accordion>
     )
 }
 
-export default Resource;
+export default memo(Resource);

@@ -1,6 +1,6 @@
-import React from 'react';
+import React, { memo } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import { Select, InputLabel, MenuItem, Grid, Paper } from '@material-ui/core';
+import { Select, InputLabel, MenuItem, Paper } from '@material-ui/core';
 
 const useStyles = makeStyles(() => ({
   paper: {
@@ -19,12 +19,12 @@ function SelectResource(props) {
         <MenuItem value='films'>Фильмы</MenuItem>
         <MenuItem value='people'>Персонажи</MenuItem>
         <MenuItem value='planets'>Планеты</MenuItem>
-        <MenuItem value='species'>Списы</MenuItem>
+        <MenuItem value='species'>Расы</MenuItem>
         <MenuItem value='starships'>Звездолеты</MenuItem>
-        <MenuItem value='vehicles'>Механизмы</MenuItem>
+        <MenuItem value='vehicles'>Транспорт</MenuItem>
       </Select>
     </Paper>  
   );
 }
 
-export default SelectResource;
+export default memo(SelectResource);
