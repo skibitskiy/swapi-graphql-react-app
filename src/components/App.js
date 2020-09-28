@@ -1,5 +1,5 @@
 import React, { useState, useCallback, useEffect } from 'react';
-import { gql, useQuery } from '@apollo/client';
+import { useQuery } from '@apollo/client';
 import { Container, Grid } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 
@@ -7,13 +7,7 @@ import Resources from './Resources';
 import SelectResource from './SelectResource'
 import Pages from './Pages'
 
-const getCount = gql`
-    query($resourceType: String) {
-        getResources(page: 1, resourceType: $resourceType) {
-            count
-        }
-    }
-`;
+import { getCount } from '../api';
 
 const useStyles = makeStyles(() => ({
     container: {

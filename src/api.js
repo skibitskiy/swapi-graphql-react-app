@@ -1,42 +1,61 @@
-const baseUrl = 'https://swapi.dev/api/';
+import { gql } from '@apollo/client';
 
-const fetchData = async (type, page = 1) => {
-    const url = new URL(type, baseUrl);
-    url.searchParams.append('page', page);
-    const response = await fetch(url).then((res) => res.json());
-    return response
-}
-
-const fetchResources = async (type, page = 1) => {
-    const { results: resources } = await fetchData(type, page);
-    return resources
-}
-
-const fetchTitles = async (type, page) => {
-    const resources = await fetchResources(type, page);
-    return resources.map((resource) => {
-        const { name, title, url } = resource;
-        return {
-            name: name || title,
-            url
+const getTitles = gql`
+  query($page: Int, $resourceType: String) {
+    getResources(page: $page, resourceType: $resourceType) {
+      results {
+        ... on IResource {
+          url
         }
-    });
-}
+        ... on Film {
+          title
+          url
+        }
+        ... on People {
+          name
+          url
+        }
+        ... on Starship {
+          name
+          url
+        }
+        ... on Vehicle {
+          name
+          url
+        }
+        ... on Planet {
+          name
+          url
+        }
+        ... on Species {
+          name
+          url
+        }
+      }
+    }
+  }
+`;
 
-const fetchPageCount = async (type) => {
-    const { count } = await fetchData(type);
-    return Math.ceil((parseInt(count) || 0) / 10);
-}
+const getResource = gql`
+    query($resourceType: String, $id: Int) {
+        getResource(resourceType: $resourceType, id: $id) {
+            ... on Film {
+                title
+            }
+        }
+    }
+`;
 
-const fetchResource = async (url) => {
-    const response = await fetch(url).then((res) => res.json());
-    return response
-}
+const getCount = gql`
+    query($resourceType: String) {
+        getResources(page: 1, resourceType: $resourceType) {
+            count
+        }
+    }
+`;
 
 export {
-    fetchData,
-    fetchResources,
-    fetchTitles,
-    fetchPageCount,
-    fetchResource
+    getTitles,
+    getResource,
+    getCount
 }
