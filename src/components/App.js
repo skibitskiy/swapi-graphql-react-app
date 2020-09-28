@@ -43,7 +43,8 @@ function App() {
 
     useEffect(() => {
         if (data !== undefined) {
-            const { count } = data.getResources;
+            let { count } = data.getResources;
+            count = Math.ceil(count / 10);
             setPageCount(count);
         }
     }, [data]);
