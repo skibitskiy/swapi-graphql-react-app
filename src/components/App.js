@@ -1,4 +1,5 @@
 import React, { useState, useCallback, useEffect } from 'react';
+import { gql, useQuery } from '@apollo/client';
 import { Container, Grid } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 
@@ -6,7 +7,13 @@ import Resources from './Resources';
 import SelectResource from './SelectResource'
 import Pages from './Pages'
 
-import { fetchPageCount } from '../api'
+const getCount = gql`
+    query($resourceType: String) {
+        getResources(page: 1, resourceType: $resourceType) {
+            count
+        }
+    }
+`;
 
 const useStyles = makeStyles(() => ({
     container: {
@@ -24,6 +31,8 @@ function App() {
         setCurrentPage(1);
     }, []);
 
+    const { data } = useQuery(getCount, { variables: { resourceType } });
+
     const [pageCount, setPageCount] = useState(0);
 
     const [currentPage, setCurrentPage] = useState(1);
@@ -33,8 +42,11 @@ function App() {
     }, []);
 
     useEffect(() => {
-        fetchPageCount(resourceType).then((count) => setPageCount(count))
-    }, [resourceType]);
+        if (data !== undefined) {
+            const { count } = data.getResources;
+            setPageCount(count);
+        }
+    }, [data]);
 
     return(
         <>
