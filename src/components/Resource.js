@@ -1,4 +1,4 @@
-import React, { useCallback, useState, useEffect, useMemo, memo } from 'react';
+import React, { useCallback, useState, useMemo, memo } from 'react';
 import { useLazyQuery } from '@apollo/client';
 import { Accordion, AccordionSummary, AccordionDetails, Typography } from '@material-ui/core';
 import { ExpandMore } from '@material-ui/icons';

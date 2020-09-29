@@ -13,6 +13,10 @@ function Resources(props) {
   const { loading, data } = useQuery(getTitles, { variables: { page: currentPage, resourceType } });
 
   useEffect(() => {
+    setResources([]);
+  }, [resourceType, currentPage]);
+
+  useEffect(() => {
     if (data !== undefined) {
       const { results } = data.getResources;
       const resources = results.map((resource) => ({ url: resource.url, name: resource.name || resource.title }));
