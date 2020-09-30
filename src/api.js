@@ -1,7 +1,7 @@
 import { gql } from '@apollo/client';
 
 const getTitles = gql`
-  query($page: Int, $resourceType: String) {
+  query getTitles($page: Int, $resourceType: String) {
     getResources(page: $page, resourceType: $resourceType) {
       results {
         ... on IResource {
@@ -9,27 +9,21 @@ const getTitles = gql`
         }
         ... on Film {
           title
-          url
         }
         ... on People {
           name
-          url
         }
         ... on Starship {
           name
-          url
         }
         ... on Vehicle {
           name
-          url
         }
         ... on Planet {
           name
-          url
         }
         ... on Species {
           name
-          url
         }
       }
     }
@@ -37,7 +31,7 @@ const getTitles = gql`
 `;
 
 const getResource = gql`
-    query($resourceType: String, $id: Int) {
+    query getResource($resourceType: String, $id: Int) {
         getResource(resourceType: $resourceType, id: $id) {
             ... on Film {
                 title
@@ -47,7 +41,7 @@ const getResource = gql`
 `;
 
 const getCount = gql`
-    query($resourceType: String) {
+    query getCount($resourceType: String) {
         getResources(page: 1, resourceType: $resourceType) {
             count
         }

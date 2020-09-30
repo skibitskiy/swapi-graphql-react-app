@@ -8,7 +8,11 @@ import { ApolloClient, InMemoryCache, ApolloProvider  } from '@apollo/client';
 const serverURI = process.env.SERVER;
 const client = new ApolloClient({
   uri: serverURI || 'http://localhost:1166/graphql',
-  cache: new InMemoryCache()
+  cache: new InMemoryCache({
+    possibleTypes: {
+      IResource: ['Film', 'People', 'Species', 'Vehicle', 'Starship', 'Planet']
+    }
+  })
 });
 
 ReactDOM.render(
