@@ -3,6 +3,7 @@ import { gql } from '@apollo/client';
 const getTitles = gql`
   query getTitles($page: Int, $resourceType: String) {
     getResources(page: $page, resourceType: $resourceType) {
+      id
       results {
         ... on IResource {
           url
@@ -33,6 +34,9 @@ const getTitles = gql`
 const getResource = gql`
     query getResource($resourceType: String, $id: Int) {
         getResource(resourceType: $resourceType, id: $id) {
+            ... on IResource {
+                url
+            }
             ... on Film {
                 title
             }
@@ -43,6 +47,7 @@ const getResource = gql`
 const getCount = gql`
     query getCount($resourceType: String) {
         getResources(page: 1, resourceType: $resourceType) {
+            id
             count
         }
     }
