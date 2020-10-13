@@ -36,6 +36,7 @@
     ]
   },
   "devDependencies": {
+    "@babel/plugin-transform-react-jsx": "^7.10.4",
     "react-test-renderer": "^16.13.1"
   }
 }
