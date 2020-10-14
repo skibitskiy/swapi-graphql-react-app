@@ -8,6 +8,7 @@ import SelectResource from './SelectResource'
 import Pages from './Pages'
 
 import { getCount } from '../api';
+import { FILMS } from '../consts';
 
 const useStyles = makeStyles(() => ({
     container: {
@@ -18,7 +19,7 @@ const useStyles = makeStyles(() => ({
 function App() {
     const styles = useStyles();
 
-    const [resourceType, setResourceType] = useState('films');
+    const [resourceType, setResourceType] = useState(FILMS);
     const onResourceTypeChange = useCallback((event) => {
         const { value } = event.target;
         setResourceType(value);
