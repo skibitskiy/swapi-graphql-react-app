@@ -45,8 +45,8 @@ describe('Resource component', () => {
         expect(container).toMatchSnapshot();
 
         // loading state
-        const resource = test.screen.getByText(props.name);
         test.act(() => {
+            const resource = test.screen.getByText(props.name);
             user.click(resource);
         });
         expect(container).toMatchSnapshot();
