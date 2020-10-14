@@ -3,11 +3,11 @@ import waitForExpect from 'wait-for-expect';
 import React from 'react';
 import * as test from '@testing-library/react';
 import { MockedProvider } from '@apollo/client/testing';
-import { InMemoryCache } from '@apollo/client';
 import user from '@testing-library/user-event';
 
 import Resource from '../src/components/Resource';
 import { getResource } from '../src/api';
+import { apolloCache } from './helpers';
 
 describe('Resource component', () => {
     it('Snapshot', async () => {
@@ -35,13 +35,8 @@ describe('Resource component', () => {
                 }
             }
         ];
-        const cache = new InMemoryCache({
-            possibleTypes: {
-                IResource: ['Film', 'People', 'Species', 'Vehicle', 'Starship', 'Planet']
-            }
-        });
         const { container } = test.render(
-            <MockedProvider mocks={mocks} cache={cache}>
+            <MockedProvider mocks={mocks} cache={apolloCache()}>
                 <Resource {...props}/>
             </MockedProvider>
         );
